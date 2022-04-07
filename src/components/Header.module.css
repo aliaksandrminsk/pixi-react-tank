@@ -1,0 +1,37 @@
+.header {
+  width: 80rem;
+  height: 4rem;
+  border: 1px dotted green;
+  background-color: yellow;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.leftItem {
+  justify-self: left;
+  padding-left: 0.5rem;
+}
+
+.leftItem label {
+  color: blue;
+  font-size: 16px;
+ margin-left: 0.5rem;
+}
+
+.rightItem {
+  justify-self: right;
+  padding-right: 0.5rem;
+}
+
+.button {
+  width: 12rem;
+  margin: 0.2rem;
+  background-color: lightgrey;
+  color: blue;
+}
+
+.title {
+  text-align: center;
+  font-size: 3rem;
+}
