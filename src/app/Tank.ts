@@ -150,7 +150,7 @@ export class Tank {
     const pointY = 800 * Math.sin(angle);
     this._arrowGraphics.clear();
     this._arrowGraphics
-      .lineStyle(2, 0xffffff, 0.4)
+      .lineStyle(2, 0xffffff, 0.7)
       .moveTo(0, 0)
       .lineTo(pointX, pointY);
   }

@@ -2,7 +2,7 @@
   width: 80rem;
   height: 4rem;
   border: 1px dotted green;
-  background-color: yellow;
+  background-color: lightyellow;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -33,6 +33,9 @@
 }
 
 .title {
+  font-weight: bold;
+  height: 4rem;
   text-align: center;
   font-size: 3rem;
+  padding-bottom: 0.4rem;
 }

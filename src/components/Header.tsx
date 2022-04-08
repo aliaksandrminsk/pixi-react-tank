@@ -18,7 +18,7 @@ const Header = () => {
 
   return (
     <>
-      <h1 className={classes.title}>Tank</h1>
+      <div className={classes.title}>Tank</div>
       <div className={classes.header}>
         <div className={classes.leftItem}>
           <label htmlFor="rotation">Rotation (between 0 and 360):</label>
