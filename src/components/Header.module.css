@@ -16,7 +16,8 @@
 .leftItem label {
   color: blue;
   font-size: 16px;
- margin-left: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 1rem;
 }
 
 .rightItem {

@@ -6,7 +6,7 @@ import { Wall } from "./Wall";
 import { ITankStore } from "../store/TankStore";
 import { appConstants } from "./constants";
 import { Tween } from "@tweenjs/tween.js";
-const TWEEN = require("@tweenjs/tween.js");
+import TWEEN from "@tweenjs/tween.js";
 window.PIXI = PIXI;
 
 declare global {

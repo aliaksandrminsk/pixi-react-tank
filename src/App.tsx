@@ -5,8 +5,8 @@ import classes from "./App.module.css";
 
 function App() {
   return (
-    <div className={classes.App}>
-      <div className={classes.Content}>
+    <div className={classes.app}>
+      <div className={classes.content}>
         <Header />
         <Canvas />
       </div>
