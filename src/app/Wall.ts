@@ -9,8 +9,13 @@ export class Wall {
 
   constructor() {
     this._view = new Container();
-
     this._leftWall = new Container();
+    this._rightWall = new Container();
+    this._topWall = new Container();
+    this._bottomWall = new Container();
+  }
+
+  build() {
     const leftWallGraphics = new Graphics();
     leftWallGraphics.beginTextureFill({ texture: Texture.from("wall") });
     leftWallGraphics.drawRect(-400, -300, 20, 600);
@@ -19,16 +24,6 @@ export class Wall {
     this._leftWall.hitArea = new Rectangle(-400, -300, 20, 600);
     this._view.addChild(this._leftWall);
 
-    this._rightWall = new Container();
-    const rightWallGraphics = new Graphics();
-    rightWallGraphics.beginTextureFill({ texture: Texture.from("wall") });
-    rightWallGraphics.drawRect(380, -300, 20, 600);
-    rightWallGraphics.endFill();
-    this._rightWall.addChild(rightWallGraphics);
-    this._rightWall.hitArea = new Rectangle(380, -300, 20, 600);
-    this._view.addChild(this._rightWall);
-
-    this._topWall = new Container();
     const topWallGraphics = new Graphics();
     topWallGraphics.beginTextureFill({ texture: Texture.from("wall") });
     topWallGraphics.drawRect(-400, -300, 800, 20);
@@ -37,7 +32,6 @@ export class Wall {
     this._topWall.hitArea = new Rectangle(-400, -300, 800, 20);
     this._view.addChild(this._topWall);
 
-    this._bottomWall = new Container();
     const bottomWallGraphics = new Graphics();
     bottomWallGraphics.beginTextureFill({ texture: Texture.from("wall") });
     bottomWallGraphics.drawRect(-400, 280, 800, 20);
@@ -45,6 +39,14 @@ export class Wall {
     this._bottomWall.addChild(bottomWallGraphics);
     this._bottomWall.hitArea = new Rectangle(-400, 280, 800, 20);
     this._view.addChild(this._bottomWall);
+
+    const rightWallGraphics = new Graphics();
+    rightWallGraphics.beginTextureFill({ texture: Texture.from("wall") });
+    rightWallGraphics.drawRect(380, -300, 20, 600);
+    rightWallGraphics.endFill();
+    this._rightWall.addChild(rightWallGraphics);
+    this._rightWall.hitArea = new Rectangle(380, -300, 20, 600);
+    this._view.addChild(this._rightWall);
   }
 
   containPoints(points: Array<Point>) {

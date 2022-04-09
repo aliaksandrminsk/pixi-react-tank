@@ -7,10 +7,10 @@ const Header = () => {
   const { tankStore: store } = useStore();
 
   const clickStartHandler = () => {
-    store.speed = 2;
+    store.startTankHandler();
   };
   const clickStopHandler = () => {
-    store.speed = 0;
+    store.stopTankHandler();
   };
   const changeRotationHandler = (value: string) => {
     store.degrees = Number(value);
@@ -28,7 +28,7 @@ const Header = () => {
             name="rotation"
             min="0"
             max="360"
-            disabled={store.speed > 0}
+            disabled={store.speed > 0 || !store.isTexturesLoaded}
             value={store.degrees}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               changeRotationHandler(event.target.value)
@@ -41,14 +41,14 @@ const Header = () => {
             value="Start"
             className={classes.button}
             onClick={clickStartHandler}
-            disabled={store.speed > 0}
+            disabled={store.speed > 0 || !store.isTexturesLoaded}
           />
           <input
             type="button"
             value="Stop"
             className={classes.button}
             onClick={clickStopHandler}
-            disabled={store.speed === 0}
+            disabled={store.speed === 0 || !store.isTexturesLoaded}
           />
         </div>
       </div>

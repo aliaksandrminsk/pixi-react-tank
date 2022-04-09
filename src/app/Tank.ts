@@ -32,20 +32,17 @@ export const createSprite = (
 };
 
 export class Tank {
-  protected _view: Container;
-  protected _bodyContainer: Container;
-  protected _tracksLeft: AnimatedSprite;
-  protected _tracksRight: AnimatedSprite;
-  protected _towerContainer: Container;
-  protected _arrowGraphics: Graphics;
+  protected _view: Container = new Container();
+  protected _bodyContainer: Container = new Container();
+  protected _tracksLeft: AnimatedSprite | null = null;
+  protected _tracksRight: AnimatedSprite | null = null;
+  protected _towerContainer: Container = new Container();
+  protected _arrowGraphics: Graphics = new Graphics();
 
   public stepX: number = 0;
   public stepY: number = 0;
 
-  constructor() {
-    this._view = new Container();
-
-    this._bodyContainer = new Container();
+  build() {
     this._view.addChild(this._bodyContainer);
 
     this._tracksLeft = createAnimatedSprite(["TrackСFrame1", "TrackСFrame2"], {
@@ -63,7 +60,6 @@ export class Tank {
     const hull = createSprite("HeavyHullB");
     this._bodyContainer.addChild(hull);
 
-    this._towerContainer = new Container();
     this._view.addChild(this._towerContainer);
     this._towerContainer.addChild(
       createSprite("HeavyGunB", { x: 140, y: -27 })
@@ -74,7 +70,6 @@ export class Tank {
     );
     this._towerContainer.addChild(createSprite("HeavyTowerB"));
 
-    this._arrowGraphics = new Graphics();
     this._view.addChild(this._arrowGraphics);
 
     //*******Check positions of control points for Collision************
@@ -136,13 +131,13 @@ export class Tank {
   }
 
   startTracks() {
-    this._tracksLeft.play();
-    this._tracksRight.play();
+    if (this._tracksLeft) this._tracksLeft.play();
+    if (this._tracksRight) this._tracksRight.play();
   }
 
   stopTracks() {
-    this._tracksLeft.stop();
-    this._tracksRight.stop();
+    if (this._tracksLeft) this._tracksLeft.stop();
+    if (this._tracksRight) this._tracksRight.stop();
   }
 
   drawArrow(angle: number) {

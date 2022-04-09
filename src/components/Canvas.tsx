@@ -8,6 +8,8 @@ const Canvas = () => {
 
   useEffect(() => {
     const app = new TankApplication(store);
+    store.startTankHandler = () => app.startTank();
+    store.stopTankHandler = () => app.stopTank();
 
     if (ref.current) {
       ref.current.appendChild(app.view);

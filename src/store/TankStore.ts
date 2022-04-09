@@ -1,14 +1,22 @@
 import { makeAutoObservable } from "mobx";
 
+type CallbackFunction = () => void;
+
 export interface ITankStore {
   degrees: number;
   radians: number;
   speed: number;
+  isTexturesLoaded: boolean;
+  startTankHandler: CallbackFunction;
+  stopTankHandler: CallbackFunction;
 }
 
-export class TankStore {
+export class TankStore implements ITankStore {
   private _degrees = 0;
   private _speed = 0;
+  private _startTankHandler: CallbackFunction = () => void 0;
+  private _stopTankHandler: CallbackFunction = () => void 0;
+  public isTexturesLoaded = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -30,6 +38,22 @@ export class TankStore {
 
   set speed(value: number) {
     this._speed = value;
+  }
+
+  set startTankHandler(callBack: CallbackFunction) {
+    this._startTankHandler = callBack;
+  }
+
+  get startTankHandler() {
+    return this._startTankHandler;
+  }
+
+  set stopTankHandler(callBack: CallbackFunction) {
+    this._stopTankHandler = callBack;
+  }
+
+  get stopTankHandler() {
+    return this._stopTankHandler;
   }
 }
 

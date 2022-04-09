@@ -16,7 +16,11 @@ declare global {
 }
 
 export class TankApplication extends PIXI.Application {
-  store: ITankStore;
+  private store: ITankStore;
+  private tank = new Tank();
+  private wall = new Wall();
+  private turnTowerTween: Tween<Tank> = new TWEEN.Tween(this.tank);
+  private turnBodyTween: Tween<Tank> = new TWEEN.Tween(this.tank);
 
   constructor(store: ITankStore) {
     super({
@@ -33,65 +37,67 @@ export class TankApplication extends PIXI.Application {
     this.loader.load(this.runGame);
   }
 
-  runGame = () => {
-    const tank = new Tank();
-    const wall = new Wall();
+  startTank = () => {
+    this.tank.startTracks();
+    this.store.speed = appConstants.TANK_SPEED;
 
-    this.stage.addChild(wall.view);
-    this.stage.addChild(tank.view);
+    const angle = this.store.radians;
+
+    if (this.tank.bodyDirection !== angle) {
+      this.turnTowerTween = new TWEEN.Tween(this.tank)
+        .to({ towerDirection: angle }, 500)
+        .start();
+      this.turnBodyTween = new TWEEN.Tween(this.tank)
+        .to({ bodyDirection: angle }, 1000)
+        .start();
+    }
+
+    this.tank.stepX = this.store.speed * Math.cos(angle);
+    this.tank.stepY = this.store.speed * Math.sin(angle);
+  };
+
+  stopTank = () => {
+    this.store.speed = 0;
+    this.turnBodyTween.stop();
+    this.turnTowerTween.stop();
+    this.tank.stepX = 0;
+    this.tank.stepY = 0;
+    this.tank.stopTracks();
+  };
+
+  runGame = () => {
+    this.store.isTexturesLoaded = true;
+
+    this.tank.build();
+    this.wall.build();
+
+    this.stage.addChild(this.wall.view);
+    this.stage.addChild(this.tank.view);
 
     this.stage.position.set(
       appConstants.STAGE_WIDTH / 2,
       appConstants.STAGE_HEIGHT / 2
     );
 
-    window.TANK = tank;
-
-    let turnTowerTween: Tween<Tank> = new TWEEN.Tween(tank);
-    let turnBodyTween: Tween<Tank> = new TWEEN.Tween(tank);
-
-    const startTank = (angle: number) => {
-      tank.startTracks();
-
-      if (tank.bodyDirection !== angle) {
-        turnTowerTween = new TWEEN.Tween(tank)
-          .to({ towerDirection: angle }, 500)
-          .start();
-        turnBodyTween = new TWEEN.Tween(tank)
-          .to({ bodyDirection: angle }, 1000)
-          .start();
-      }
-
-      tank.stepX = this.store.speed * Math.cos(angle);
-      tank.stepY = this.store.speed * Math.sin(angle);
-    };
-
-    const stopTank = () => {
-      turnBodyTween.stop();
-      turnTowerTween.stop();
-      tank.stepX = 0;
-      tank.stepY = 0;
-      tank.stopTracks();
-    };
+    window.TANK = this.tank;
 
     autorun(() => {
-      tank.drawArrow(this.store.radians);
-      if (this.store.speed > 0) {
-        startTank(this.store.radians);
-      } else {
-        stopTank();
-      }
+      this.tank.drawArrow(this.store.radians);
     });
 
     this.ticker.add(() => {
       TWEEN.update();
 
-      if (this.store.speed > 0 && turnBodyTween && !turnBodyTween.isPlaying()) {
-        if (wall.containPoints(tank.getControlPoints())) {
-          this.store.speed = 0;
+      if (
+        this.store.speed > 0 &&
+        this.turnBodyTween &&
+        !this.turnBodyTween.isPlaying()
+      ) {
+        if (this.wall.containPoints(this.tank.getControlPoints())) {
+          this.stopTank();
         } else {
-          tank.x += tank.stepX;
-          tank.y += tank.stepY;
+          this.tank.x += this.tank.stepX;
+          this.tank.y += this.tank.stepY;
         }
       }
     });
