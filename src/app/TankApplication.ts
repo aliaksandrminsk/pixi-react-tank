@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { assetsMap } from "./assetsMap";
 import { Tank } from "./Tank";
-import { autorun } from "mobx";
+import { autorun, runInAction } from "mobx";
 import { Wall } from "./Wall";
 import { ITankStore } from "../store/TankStore";
 import { appConstants } from "./constants";
@@ -66,7 +66,9 @@ export class TankApplication extends PIXI.Application {
   };
 
   runGame = () => {
-    this.store.isTexturesLoaded = true;
+    runInAction(() => {
+      this.store.isTexturesLoaded = true;
+    });
 
     this.tank.build();
     this.wall.build();
