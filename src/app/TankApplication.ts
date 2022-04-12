@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { assetsMap } from "./assetsMap";
 import { Tank } from "./Tank";
-import { autorun, runInAction } from "mobx";
+import { reaction, runInAction } from "mobx";
 import { Wall } from "./Wall";
 import { ITankStore } from "../store/TankStore";
 import { appConstants } from "./constants";
@@ -83,9 +83,11 @@ export class TankApplication extends PIXI.Application {
 
     window.TANK = this.tank;
 
-    autorun(() => {
-      this.tank.drawArrow(this.store.radians);
-    });
+    this.tank.drawArrow(this.store.radians);
+    reaction(
+      () => this.store.radians,
+      (radians) => this.tank.drawArrow(radians)
+    );
 
     this.ticker.add(() => {
       TWEEN.update();
